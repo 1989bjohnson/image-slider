@@ -8,8 +8,13 @@ import "./SliderNav.scss";
 export const SliderNav = (props) => {
   return (
     <div className="slider-nav">
-      <FontAwesomeIcon size="2x" icon={faChevronLeft} />
-      <FontAwesomeIcon size="2x" icon={faChevronRight} />
+      <div className="hover" onClick={() => props.prevSlide()}>
+        <FontAwesomeIcon size="2x" icon={faChevronLeft} />
+      </div>
+      {props.dots}
+      <div className="hover" onClick={() => props.nextSlide()}>
+        <FontAwesomeIcon size="2x" icon={faChevronRight} />
+      </div>
     </div>
   );
 };

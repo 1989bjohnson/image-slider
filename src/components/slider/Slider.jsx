@@ -14,7 +14,6 @@ export const Slider = () => {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log(result);
           setImages(result);
         },
         (error) => {
@@ -26,15 +25,60 @@ export const Slider = () => {
   const imageList = images.map((img, i) => {
     return (
       <div key={i} className={i === slideIndex ? "slide active" : "slide"}>
-        <img src={img.urls.small} />
+        <img src={img.urls.regular} />
       </div>
     );
   });
 
+  const dotList = images.map((dot, i) => {
+    return (
+      <div
+        key={i}
+        className={i === slideIndex ? "dot hover active" : "dot hover"}
+        onClick={() => onSlideChange(i)}
+      ></div>
+    );
+  });
+
+  const totalSlides = imageList.length - 1;
+
+  const nextSlide = () => {
+    slideIndex === totalSlides
+      ? setSlideIndex(0)
+      : setSlideIndex(slideIndex + 1);
+  };
+
+  const prevSlide = () => {
+    slideIndex === 0
+      ? setSlideIndex(totalSlides)
+      : setSlideIndex(slideIndex - 1);
+  };
+
+  const onSlideChange = (type) => {
+    switch (type) {
+      case "next": {
+        nextSlide();
+        break;
+      }
+      case "prev": {
+        prevSlide();
+        break;
+      }
+      default: {
+        console.log(`${type} is typeOf ${typeof type}`);
+        setSlideIndex(type);
+      }
+    }
+  };
+
   return (
     <div className="slider">
       {imageList}
-      <SliderNav />
+      <SliderNav
+        nextSlide={() => onSlideChange("next")}
+        prevSlide={() => onSlideChange("prev")}
+        dots={<div className="dot-container">{dotList}</div>}
+      />
     </div>
   );
 };
